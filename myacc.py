@@ -102,7 +102,6 @@ def p_statement_assign(p):
     b.add_edge('name',p[1])
     b.add_edge('exp',p[3])
     plt.title('assign')
-    nx.nx_agraph.write_dot(b,'test.dot')
     pos = graphviz_layout(b, prog='dot')
     nx.draw(b,pos, with_labels=True, arrows=True, node_size=600)
     plt.show()
@@ -139,7 +138,6 @@ def p_statement_if(p):
             b.add_edge('name2',p[12])
             b.add_edge('exp2',p[14])
             plt.title("if-else-statement")
-            nx.nx_agraph.write_dot(b,'test.dot')
             pos = graphviz_layout(b, prog='dot')
             nx.draw(b,pos, with_labels=True, arrows=True, node_size=600)
             plt.show()
@@ -161,42 +159,44 @@ def p_statement_if(p):
             b.add_edge('name1',p[6])
             b.add_edge('exp1',p[8])
             plt.title("ifstatement")
-            nx.nx_agraph.write_dot(b,'test.dot')
             pos = graphviz_layout(b, prog='dot')
             nx.draw(b,pos, with_labels=True, arrows=True, node_size=600)
             plt.show()
             plt.clf()
             plt.cla()
     else:
-        if p[12] is not None:
-            names[p[12]] = p[14]
-            plt.clf()
-            plt.cla()
-            b.clear()
-            b.add_node('stmt')
-            b.add_nodes_from(['if','comp','stmt1','else','stmt2'])
-            b.add_edges_from([('stmt','if'),('stmt','comp'),('stmt','stmt1'),('stmt','else'),('stmt','stmt2')])
-            b.add_node(p[3])
-            b.add_edge('comp',p[3])
-            b.add_nodes_from(['name1','equel1','exp1'])
-            b.add_edges_from([('stmt1','name1'),('stmt1','equel1'),('stmt1','exp1')])
-            b.add_nodes_from(['name2','equel2','exp2'])
-            b.add_edges_from([('stmt2','name2'),('stmt2','equel2'),('stmt2','exp2')])
-            b.add_node(p[6])
-            b.add_node(p[8])
-            b.add_edge('name1',p[6])
-            b.add_edge('exp1',p[8])
-            b.add_node(p[12])
-            b.add_node(p[14])
-            b.add_edge('name2',p[12])
-            b.add_edge('exp2',p[14])
-            plt.title("if-else-statement")
-            nx.nx_agraph.write_dot(b,'test.dot')
-            pos = graphviz_layout(b, prog='dot')
-            nx.draw(b,pos, with_labels=True, arrows=True, node_size=600)
-            plt.show()
-            plt.clf()
-            plt.cla()
+        try:
+            if p[12] is not None:
+                names[p[12]] = p[14]
+                plt.clf()
+                plt.cla()
+                b.clear()
+                b.add_node('stmt')
+                b.add_nodes_from(['if','comp','stmt1','else','stmt2'])
+                b.add_edges_from([('stmt','if'),('stmt','comp'),('stmt','stmt1'),('stmt','else'),('stmt','stmt2')])
+                b.add_node(p[3])
+                b.add_edge('comp',p[3])
+                b.add_nodes_from(['name1','equel1','exp1'])
+                b.add_edges_from([('stmt1','name1'),('stmt1','equel1'),('stmt1','exp1')])
+                b.add_nodes_from(['name2','equel2','exp2'])
+                b.add_edges_from([('stmt2','name2'),('stmt2','equel2'),('stmt2','exp2')])
+                b.add_node(p[6])
+                b.add_node(p[8])
+                b.add_edge('name1',p[6])
+                b.add_edge('exp1',p[8])
+                b.add_node(p[12])
+                b.add_node(p[14])
+                b.add_edge('name2',p[12])
+                b.add_edge('exp2',p[14])
+                plt.title("if-else-statement")
+                nx.nx_agraph.write_dot(b,'test.dot')
+                pos = graphviz_layout(b, prog='dot')
+                nx.draw(b,pos, with_labels=True, arrows=True, node_size=600)
+                plt.show()
+                plt.clf()
+                plt.cla()
+        except:
+            pass
 
 
 def p_statement_for(p):
@@ -337,9 +337,6 @@ def p_expression_binop(p):
     elif p[2] == '**':
         p[0] = math.pow(p[1] , 1 / p[3])
 
-def p_expression_group(p):
-    'expression : LPAREN expression RPAREN'
-    p[0] = p[2]
 
 def p_expression_number(p):
     'expression : NUMBER'

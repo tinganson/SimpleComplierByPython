@@ -1,5 +1,7 @@
 import sys
 import ply.lex as lex
+
+
 reserved = {
    'if' : 'IF',
    'elif' : 'ELIF',
@@ -63,6 +65,7 @@ def t_error(t):
     t.lexer.skip(1)
 
 lexer = lex.lex()
+
 
 # Give the lexer some input
 '''
